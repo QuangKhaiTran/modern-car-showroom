@@ -1,0 +1,39 @@
+name: Test CORS Configuration
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'URL to test'
+        required: false
+        default: 'https://modern-car-showroom.vercel.app'
+
+jobs:
+  test-cors:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.deployment_status.state == 'success'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test CORS
+        run: |
+          URL="${{ github.event.inputs.url || 'https://modern-car-showroom.vercel.app' }}"
+          echo "Testing CORS for: $URL"
+          node test-cors.js "$URL"
+
+      - name: Test with curl
+        run: |
+          URL="${{ github.event.inputs.url || 'https://modern-car-showroom.vercel.app' }}"
+          echo "Testing preflight with curl..."
+          curl -X OPTIONS \
+            -H "Origin: https://example.com" \
+            -H "Access-Control-Request-Method: GET" \
+            -i "$URL" | grep -i "access-control"
