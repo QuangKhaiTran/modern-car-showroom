@@ -9,38 +9,188 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VeChungToiRouteImport } from './routes/ve-chung-toi'
+import { Route as TraGopRouteImport } from './routes/tra-gop'
+import { Route as TinTucRouteImport } from './routes/tin-tuc'
+import { Route as ThuongHieuRouteImport } from './routes/thuong-hieu'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as LienHeRouteImport } from './routes/lien-he'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as XeIndexRouteImport } from './routes/xe.index'
+import { Route as XeSlugRouteImport } from './routes/xe.$slug'
 
+const VeChungToiRoute = VeChungToiRouteImport.update({
+  id: '/ve-chung-toi',
+  path: '/ve-chung-toi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TraGopRoute = TraGopRouteImport.update({
+  id: '/tra-gop',
+  path: '/tra-gop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TinTucRoute = TinTucRouteImport.update({
+  id: '/tin-tuc',
+  path: '/tin-tuc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThuongHieuRoute = ThuongHieuRouteImport.update({
+  id: '/thuong-hieu',
+  path: '/thuong-hieu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LienHeRoute = LienHeRouteImport.update({
+  id: '/lien-he',
+  path: '/lien-he',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const XeIndexRoute = XeIndexRouteImport.update({
+  id: '/xe/',
+  path: '/xe/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const XeSlugRoute = XeSlugRouteImport.update({
+  id: '/xe/$slug',
+  path: '/xe/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/lien-he': typeof LienHeRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/thuong-hieu': typeof ThuongHieuRoute
+  '/tin-tuc': typeof TinTucRoute
+  '/tra-gop': typeof TraGopRoute
+  '/ve-chung-toi': typeof VeChungToiRoute
+  '/xe/$slug': typeof XeSlugRoute
+  '/xe/': typeof XeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/lien-he': typeof LienHeRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/thuong-hieu': typeof ThuongHieuRoute
+  '/tin-tuc': typeof TinTucRoute
+  '/tra-gop': typeof TraGopRoute
+  '/ve-chung-toi': typeof VeChungToiRoute
+  '/xe/$slug': typeof XeSlugRoute
+  '/xe': typeof XeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/lien-he': typeof LienHeRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/thuong-hieu': typeof ThuongHieuRoute
+  '/tin-tuc': typeof TinTucRoute
+  '/tra-gop': typeof TraGopRoute
+  '/ve-chung-toi': typeof VeChungToiRoute
+  '/xe/$slug': typeof XeSlugRoute
+  '/xe/': typeof XeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/lien-he'
+    | '/sitemap.xml'
+    | '/thuong-hieu'
+    | '/tin-tuc'
+    | '/tra-gop'
+    | '/ve-chung-toi'
+    | '/xe/$slug'
+    | '/xe/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/lien-he'
+    | '/sitemap.xml'
+    | '/thuong-hieu'
+    | '/tin-tuc'
+    | '/tra-gop'
+    | '/ve-chung-toi'
+    | '/xe/$slug'
+    | '/xe'
+  id:
+    | '__root__'
+    | '/'
+    | '/lien-he'
+    | '/sitemap.xml'
+    | '/thuong-hieu'
+    | '/tin-tuc'
+    | '/tra-gop'
+    | '/ve-chung-toi'
+    | '/xe/$slug'
+    | '/xe/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LienHeRoute: typeof LienHeRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ThuongHieuRoute: typeof ThuongHieuRoute
+  TinTucRoute: typeof TinTucRoute
+  TraGopRoute: typeof TraGopRoute
+  VeChungToiRoute: typeof VeChungToiRoute
+  XeSlugRoute: typeof XeSlugRoute
+  XeIndexRoute: typeof XeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/ve-chung-toi': {
+      id: '/ve-chung-toi'
+      path: '/ve-chung-toi'
+      fullPath: '/ve-chung-toi'
+      preLoaderRoute: typeof VeChungToiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tra-gop': {
+      id: '/tra-gop'
+      path: '/tra-gop'
+      fullPath: '/tra-gop'
+      preLoaderRoute: typeof TraGopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tin-tuc': {
+      id: '/tin-tuc'
+      path: '/tin-tuc'
+      fullPath: '/tin-tuc'
+      preLoaderRoute: typeof TinTucRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thuong-hieu': {
+      id: '/thuong-hieu'
+      path: '/thuong-hieu'
+      fullPath: '/thuong-hieu'
+      preLoaderRoute: typeof ThuongHieuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lien-he': {
+      id: '/lien-he'
+      path: '/lien-he'
+      fullPath: '/lien-he'
+      preLoaderRoute: typeof LienHeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +198,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/xe/': {
+      id: '/xe/'
+      path: '/xe'
+      fullPath: '/xe/'
+      preLoaderRoute: typeof XeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/xe/$slug': {
+      id: '/xe/$slug'
+      path: '/xe/$slug'
+      fullPath: '/xe/$slug'
+      preLoaderRoute: typeof XeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LienHeRoute: LienHeRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ThuongHieuRoute: ThuongHieuRoute,
+  TinTucRoute: TinTucRoute,
+  TraGopRoute: TraGopRoute,
+  VeChungToiRoute: VeChungToiRoute,
+  XeSlugRoute: XeSlugRoute,
+  XeIndexRoute: XeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
