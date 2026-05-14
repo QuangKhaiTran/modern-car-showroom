@@ -50,6 +50,30 @@ function isCatastrophicSsrErrorBody(body: string, responseStatus: number): boole
   );
 }
 
+// Add CORS and security headers to response
+function addSecurityHeaders(response: Response, origin: string): Response {
+  const headers = new Headers(response.headers);
+  
+  // CORS headers - allow all domains
+  headers.set("Access-Control-Allow-Origin", origin || "*");
+  headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+  headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+  headers.set("Access-Control-Allow-Credentials", "true");
+  headers.set("Access-Control-Max-Age", "86400"); // 24 hours
+  
+  // Security headers
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("X-Frame-Options", "SAMEORIGIN");
+  headers.set("X-XSS-Protection", "1; mode=block");
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 // h3 swallows in-handler throws into a normal 500 Response with body
 // {"unhandled":true,"message":"HTTPError"} — try/catch alone never fires for those.
 async function normalizeCatastrophicSsrResponse(response: Response): Promise<Response> {
@@ -68,13 +92,31 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const origin = request.headers.get("Origin") || "*";
+    
+    // Handle preflight OPTIONS request
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          "Access-Control-Allow-Origin": origin,
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Max-Age": "86400",
+        },
+      });
+    }
+    
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      const normalizedResponse = await normalizeCatastrophicSsrResponse(response);
+      return addSecurityHeaders(normalizedResponse, origin);
     } catch (error) {
       console.error(error);
-      return brandedErrorResponse();
+      const errorResponse = brandedErrorResponse();
+      return addSecurityHeaders(errorResponse, origin);
     }
   },
 };
